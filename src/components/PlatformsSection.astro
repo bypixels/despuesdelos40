@@ -1,0 +1,91 @@
+---
+const platforms = [
+  {
+    name: 'Spotify',
+    icon: 'music',
+    color: '#1DB954',
+    url: 'https://spotify.com',
+  },
+  {
+    name: 'YouTube',
+    icon: 'youtube',
+    color: '#FF0000',
+    url: 'https://youtube.com',
+  },
+];
+---
+
+<section id="escuchanos" class="w-full bg-gray-100 py-12 md:py-16 lg:py-20 px-4 md:px-8 lg:px-20 platforms-section">
+  <div class="max-w-7xl mx-auto flex flex-col items-center gap-8 md:gap-12">
+    <!-- Header -->
+    <div class="flex flex-col items-center gap-3 md:gap-4 text-center platforms-header px-2">
+      <span class="text-golden font-bold tracking-widest text-xs md:text-sm">ESCÚCHANOS EN</span>
+      <h2 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary font-heading">Escuchanos en tu App Favorita</h2>
+      <p class="text-gray-500 text-sm md:text-lg">Escuchá a los chichis en tu plataforma favorita</p>
+    </div>
+
+    <!-- Platforms Grid -->
+    <div class="grid grid-cols-2 gap-4 md:gap-8 w-full max-w-md md:max-w-none md:flex md:justify-center">
+      {platforms.map((platform, index) => (
+        <a
+          href={platform.url}
+          target="_blank"
+          class="platform-card flex flex-col items-center justify-center gap-3 md:gap-4 aspect-square w-full max-w-[180px] md:w-[200px] lg:w-[220px] md:max-w-none mx-auto rounded-2xl md:rounded-3xl transition-all duration-500 hover:scale-110 hover:-translate-y-2 group"
+          style={`background-color: ${platform.color}; box-shadow: 0 8px 24px ${platform.color}50;`}
+          data-index={index}
+        >
+          {platform.name === 'Spotify' ? (
+            <svg class="w-10 h-10 md:w-14 md:h-14 text-white transition-transform duration-300 group-hover:scale-125" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+          ) : (
+            <svg class="w-10 h-10 md:w-14 md:h-14 text-white transition-transform duration-300 group-hover:scale-125" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/>
+              <polygon fill="white" points="9.545,15.568 15.818,12 9.545,8.432"/>
+            </svg>
+          )}
+          <span class="text-white text-base md:text-xl font-semibold transition-transform duration-300 group-hover:scale-110">{platform.name}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  const platformsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const header = entry.target.querySelector('.platforms-header');
+        if (header) {
+          (header as HTMLElement).style.opacity = '1';
+          (header as HTMLElement).style.transform = 'translateY(0)';
+        }
+
+        const cards = entry.target.querySelectorAll('.platform-card');
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            (card as HTMLElement).style.opacity = '1';
+            (card as HTMLElement).style.transform = 'translateY(0) scale(1)';
+          }, 300 + index * 200);
+        });
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.platforms-section').forEach(section => {
+    platformsObserver.observe(section);
+
+    const header = section.querySelector('.platforms-header');
+    if (header) {
+      (header as HTMLElement).style.opacity = '0';
+      (header as HTMLElement).style.transform = 'translateY(30px)';
+      (header as HTMLElement).style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    }
+
+    section.querySelectorAll('.platform-card').forEach(card => {
+      (card as HTMLElement).style.opacity = '0';
+      (card as HTMLElement).style.transform = 'translateY(40px) scale(0.8)';
+      (card as HTMLElement).style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    });
+  });
+</script>

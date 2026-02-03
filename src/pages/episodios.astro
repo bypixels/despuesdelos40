@@ -1,0 +1,407 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Episode {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  duration: string;
+  episodeNumber: string;
+  image: string;
+  spotifyUrl?: string;
+  youtubeUrl?: string;
+  tags: string[];
+}
+
+const allEpisodes: Episode[] = [
+  {
+    id: 1,
+    title: "¿Por qué me duele todo?",
+    episodeNumber: "Ep. 125",
+    description: "Hablamos de esos dolores misteriosos que aparecen después de los 40. Rodillas, espalda, y el clásico: ¿por qué me levanté así?",
+    date: "15 Ene 2026",
+    duration: "45 min",
+    image: "/images/FotoPortada.png",
+    spotifyUrl: "https://open.spotify.com/episode/example1",
+    youtubeUrl: "https://youtube.com/watch?v=example1",
+    tags: ["salud", "humor", "dolores"],
+  },
+  {
+    id: 2,
+    title: "Noches sin dormir",
+    episodeNumber: "Ep. 124",
+    description: "Las 3am ya no son para fiesta, son para ir al baño. Compartimos tips y risas sobre el insomnio cuarentón.",
+    date: "8 Ene 2026",
+    duration: "52 min",
+    image: "/images/FotoPortada.png",
+    spotifyUrl: "https://open.spotify.com/episode/example2",
+    youtubeUrl: "https://youtube.com/watch?v=example2",
+    tags: ["salud", "sueño", "humor"],
+  },
+  {
+    id: 3,
+    title: "Lo que no te dijeron de los 40",
+    episodeNumber: "Ep. 123",
+    description: "Esas cosas que nadie te advirtió: los lentes para leer, las canas rebeldes y por qué el ruido nos molesta más.",
+    date: "1 Ene 2026",
+    duration: "38 min",
+    image: "/images/FotoPortada.png",
+    spotifyUrl: "https://open.spotify.com/episode/example3",
+    youtubeUrl: "https://youtube.com/watch?v=example3",
+    tags: ["vida", "humor", "consejos"],
+  },
+  {
+    id: 4,
+    title: "Tecnología para Chichis",
+    episodeNumber: "Ep. 122",
+    description: "Los chichis hablan sobre cómo enfrentar la tecnología actual sin quedar como dinosaurios.",
+    date: "25 Dic 2025",
+    duration: "48 min",
+    image: "/images/FotoPortada.png",
+    spotifyUrl: "https://open.spotify.com/episode/example4",
+    youtubeUrl: "https://youtube.com/watch?v=example4",
+    tags: ["tecnología", "humor", "consejos"],
+  },
+  {
+    id: 5,
+    title: "Bienvenidos Chichis",
+    episodeNumber: "Ep. 121",
+    description: "En nuestro primer episodio hablamos sobre qué significa ser un chichi en Costa Rica.",
+    date: "18 Dic 2025",
+    duration: "45 min",
+    image: "/images/FotoPortada.png",
+    spotifyUrl: "https://open.spotify.com/episode/example5",
+    youtubeUrl: "https://youtube.com/watch?v=example5",
+    tags: ["introducción", "vida", "humor"],
+  },
+  {
+    id: 6,
+    title: "Crisis de la Mediana Edad",
+    episodeNumber: "Ep. 120",
+    description: "¿Es real la crisis de los 40? Hablamos de esos momentos donde cuestionamos todo y queremos comprar una moto.",
+    date: "11 Dic 2025",
+    duration: "55 min",
+    image: "/images/FotoPortada.png",
+    spotifyUrl: "https://open.spotify.com/episode/example6",
+    youtubeUrl: "https://youtube.com/watch?v=example6",
+    tags: ["vida", "reflexión", "humor"],
+  },
+];
+---
+
+<Layout title="Episodios | Después de los 40">
+  <Header currentPage="episodios" />
+
+  <!-- Ad Banner Top -->
+  <div class="w-full bg-secondary py-3 md:py-4 px-4 md:px-8 lg:px-20">
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
+      <p class="text-white font-semibold text-xs md:text-sm text-center">
+        📢 Espacio publicitario disponible - Contactanos para anunciar tu marca aquí
+      </p>
+      <a href="#contacto" class="bg-primary text-white text-xs font-semibold px-4 py-2 rounded-full hover:bg-primary/90 transition-colors">
+        Más Info
+      </a>
+    </div>
+  </div>
+
+  <!-- Page Header with Search -->
+  <section class="w-full bg-gray-100 py-10 md:py-16 px-4 md:px-8 lg:px-20">
+    <div class="max-w-7xl mx-auto flex flex-col items-center gap-4 md:gap-6">
+      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-primary font-heading">Episodios</h1>
+      <p class="text-gray-500 text-sm md:text-lg text-center max-w-md">
+        Todos nuestros episodios disponibles en Spotify y YouTube
+      </p>
+
+      <!-- Search Bar -->
+      <div class="w-full max-w-xl mt-2 md:mt-4">
+        <div class="relative">
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Buscar episodios..."
+            class="w-full px-4 md:px-5 py-3 md:py-4 pl-12 md:pl-14 rounded-full border border-gray-200 focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all duration-300 text-sm md:text-base shadow-sm"
+          />
+          <svg class="absolute left-4 md:left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <button
+            id="clear-search"
+            class="hidden absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="flex flex-wrap justify-center gap-2 md:gap-4 mt-2 md:mt-4">
+        <button data-filter="all" class="filter-btn active bg-primary text-white font-semibold px-4 md:px-6 py-2 md:py-3 rounded-full text-sm md:text-base transition-all duration-300">
+          Todos
+        </button>
+        <button data-filter="spotify" class="filter-btn border-2 border-green-500 text-green-500 font-semibold px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-green-500 hover:text-white transition-all duration-300 text-sm md:text-base">
+          Spotify
+        </button>
+        <button data-filter="youtube" class="filter-btn border-2 border-red-500 text-red-500 font-semibold px-4 md:px-6 py-2 md:py-3 rounded-full hover:bg-red-500 hover:text-white transition-all duration-300 text-sm md:text-base">
+          YouTube
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Episodes Grid -->
+  <section class="w-full py-10 md:py-16 px-4 md:px-8 lg:px-20">
+    <div class="max-w-7xl mx-auto">
+      <!-- Results Count -->
+      <p id="results-count" class="text-gray-500 text-sm mb-6">
+        Mostrando <span id="count-number">{allEpisodes.length}</span> episodios
+      </p>
+
+      <div class="flex flex-col lg:flex-row gap-6 lg:gap-8">
+        <!-- Main Content -->
+        <div class="flex-1">
+          <div id="episodes-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            {allEpisodes.map((episode) => (
+              <article
+                class="episode-item bg-white rounded-2xl overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300 group cursor-pointer"
+                data-title={episode.title.toLowerCase()}
+                data-description={episode.description.toLowerCase()}
+                data-tags={episode.tags.join(' ')}
+                data-spotify={episode.spotifyUrl ? 'true' : 'false'}
+                data-youtube={episode.youtubeUrl ? 'true' : 'false'}
+              >
+                <div class="relative h-[180px] md:h-[200px] overflow-hidden">
+                  <img
+                    src={episode.image}
+                    alt={episode.title}
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div class="w-14 h-14 bg-secondary/90 rounded-full flex items-center justify-center shadow-lg transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                      <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <polygon points="5,3 19,12 5,21"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <span class="absolute top-3 left-3 px-3 py-1.5 rounded-lg text-xs font-semibold bg-secondary/90 text-white">
+                    {episode.episodeNumber}
+                  </span>
+                </div>
+                <div class="p-4 md:p-5 flex flex-col gap-3">
+                  <h3 class="text-base md:text-lg font-bold text-primary font-heading group-hover:text-secondary transition-colors line-clamp-2">
+                    {episode.title}
+                  </h3>
+                  <p class="text-gray-500 text-xs md:text-sm leading-relaxed line-clamp-2">
+                    {episode.description}
+                  </p>
+                  <div class="flex items-center justify-between text-xs mt-auto pt-3 border-t border-gray-100">
+                    <div class="flex items-center gap-3">
+                      <span class="text-secondary font-medium">{episode.duration}</span>
+                      <span class="text-gray-400">{episode.date}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      {episode.spotifyUrl && (
+                        <a
+                          href={episode.spotifyUrl}
+                          target="_blank"
+                          class="text-green-500 hover:text-green-600 transition-colors"
+                          aria-label="Escuchar en Spotify"
+                        >
+                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02z"/>
+                          </svg>
+                        </a>
+                      )}
+                      {episode.youtubeUrl && (
+                        <a
+                          href={episode.youtubeUrl}
+                          target="_blank"
+                          class="text-red-500 hover:text-red-600 transition-colors"
+                          aria-label="Ver en YouTube"
+                        >
+                          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/>
+                            <polygon fill="white" points="9.545,15.568 15.818,12 9.545,8.432"/>
+                          </svg>
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <!-- No Results Message -->
+          <div id="no-results" class="hidden text-center py-12">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="text-xl font-bold text-gray-400 mb-2">No encontramos episodios</h3>
+            <p class="text-gray-400 text-sm">Intenta con otra búsqueda o filtro</p>
+          </div>
+
+          <!-- Pagination -->
+          <div id="pagination" class="flex justify-center items-center gap-2 mt-8 md:mt-12">
+            <button id="prev-page" class="px-4 py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              ← Anterior
+            </button>
+            <div id="page-numbers" class="flex gap-1">
+              <!-- Page numbers will be inserted here -->
+            </div>
+            <button id="next-page" class="px-4 py-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              Siguiente →
+            </button>
+          </div>
+        </div>
+
+        <!-- Sidebar Ads -->
+        <div class="w-full lg:w-[300px] flex flex-col gap-4">
+          <div class="h-[250px] md:h-[300px] bg-gray-100 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-3">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21,15 16,10 5,21"/>
+            </svg>
+            <span class="text-gray-400 font-medium text-sm">Banner Cuadrado</span>
+            <span class="text-gray-300 text-xs">1080 x 1080 px</span>
+          </div>
+          <div class="h-[100px] md:h-[125px] bg-gray-100 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2">
+            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            </svg>
+            <span class="text-gray-400 font-medium text-sm">Banner Horizontal</span>
+            <span class="text-gray-300 text-xs">720 x 300 px</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mid Ad Section -->
+  <section class="w-full bg-gray-100 py-8 md:py-10 px-4 md:px-8 lg:px-20">
+    <div class="max-w-7xl mx-auto flex justify-center">
+      <div class="w-full max-w-[720px] h-[200px] md:h-[300px] bg-white rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-4">
+        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+        </svg>
+        <div class="text-center px-4">
+          <p class="text-gray-400 font-medium text-sm">Banner Publicitario - 720 x 300 px</p>
+          <p class="text-gray-300 text-xs mt-1">Espacio premium para patrocinadores</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<script>
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const clearSearch = document.getElementById('clear-search') as HTMLButtonElement;
+  const episodesContainer = document.getElementById('episodes-container') as HTMLElement;
+  const noResults = document.getElementById('no-results') as HTMLElement;
+  const countNumber = document.getElementById('count-number') as HTMLElement;
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  let currentFilter = 'all';
+  let currentSearch = '';
+
+  function filterEpisodes() {
+    const episodes = episodesContainer.querySelectorAll('.episode-item') as NodeListOf<HTMLElement>;
+    let visibleCount = 0;
+
+    episodes.forEach((episode) => {
+      const title = episode.dataset.title || '';
+      const description = episode.dataset.description || '';
+      const tags = episode.dataset.tags || '';
+      const hasSpotify = episode.dataset.spotify === 'true';
+      const hasYoutube = episode.dataset.youtube === 'true';
+
+      const matchesSearch = currentSearch === '' ||
+        title.includes(currentSearch.toLowerCase()) ||
+        description.includes(currentSearch.toLowerCase()) ||
+        tags.includes(currentSearch.toLowerCase());
+
+      const matchesFilter = currentFilter === 'all' ||
+        (currentFilter === 'spotify' && hasSpotify) ||
+        (currentFilter === 'youtube' && hasYoutube);
+
+      if (matchesSearch && matchesFilter) {
+        episode.style.display = '';
+        visibleCount++;
+      } else {
+        episode.style.display = 'none';
+      }
+    });
+
+    countNumber.textContent = visibleCount.toString();
+
+    if (visibleCount === 0) {
+      noResults.classList.remove('hidden');
+    } else {
+      noResults.classList.add('hidden');
+    }
+  }
+
+  // Search functionality
+  searchInput?.addEventListener('input', (e) => {
+    currentSearch = (e.target as HTMLInputElement).value;
+    if (currentSearch.length > 0) {
+      clearSearch?.classList.remove('hidden');
+    } else {
+      clearSearch?.classList.add('hidden');
+    }
+    filterEpisodes();
+  });
+
+  clearSearch?.addEventListener('click', () => {
+    searchInput.value = '';
+    currentSearch = '';
+    clearSearch.classList.add('hidden');
+    filterEpisodes();
+  });
+
+  // Filter buttons
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('active', 'bg-primary', 'text-white', 'bg-green-500', 'bg-red-500');
+        const filter = (b as HTMLElement).dataset.filter;
+        if (filter === 'spotify') {
+          b.classList.add('border-green-500', 'text-green-500');
+        } else if (filter === 'youtube') {
+          b.classList.add('border-red-500', 'text-red-500');
+        }
+      });
+
+      btn.classList.add('active');
+      const filter = (btn as HTMLElement).dataset.filter || 'all';
+      currentFilter = filter;
+
+      if (filter === 'all') {
+        btn.classList.add('bg-primary', 'text-white');
+      } else if (filter === 'spotify') {
+        btn.classList.remove('text-green-500');
+        btn.classList.add('bg-green-500', 'text-white');
+      } else if (filter === 'youtube') {
+        btn.classList.remove('text-red-500');
+        btn.classList.add('bg-red-500', 'text-white');
+      }
+
+      filterEpisodes();
+    });
+  });
+</script>
+
+<style>
+  .filter-btn.active {
+    transform: scale(1.05);
+  }
+</style>
